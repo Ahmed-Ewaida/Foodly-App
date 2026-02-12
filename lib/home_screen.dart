@@ -259,63 +259,68 @@ class _HomeScreenState extends State<HomeScreen> {
                             // mainAxisSpacing: 100
                           ),
                       itemBuilder: (context, index) {
-                        return SizedBox(
-                          height: 350,
-                          width: double.infinity,
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 70,
-                                width: 70,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  image: DecorationImage(
-                                      image: NetworkImage(
-                                        burgerItems[index].image,
-                                      ),fit: BoxFit.fill
-                                  ),
-                                ),
-                              ),
-                             ListTile(
-                               title: Text(
-                                 burgerItems[index].name,
-                                 style: TextStyle(fontSize: 12),
-                                 maxLines: 1,
-                                 overflow: TextOverflow.ellipsis,
-                               ),
-                               subtitle: Text(
-                                 burgerItems[index].desc,
-                                 style: TextStyle(fontSize: 10),
-                                 maxLines: 1,
-                                 overflow: TextOverflow.ellipsis,
-                               ),
-
-                                                             ),
-                              Container(
-                                alignment: Alignment.center,
-                                height: 40,
-                                width: 120,
-                                decoration: BoxDecoration(
-                                  color: Colors.red.shade50,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: TextButton(
-                                  onPressed: () {
-                                   addToCart(burgerItems[index]);
-                                  },
-                                  child: Text(
-                                    "Add to cart",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
+                        return GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailScreen(product: burgerItems[index])));
+                          },
+                          child: SizedBox(
+                            height: 350,
+                            width: double.infinity,
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 70,
+                                  width: 70,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    image: DecorationImage(
+                                        image: NetworkImage(
+                                          burgerItems[index].image,
+                                        ),fit: BoxFit.fill
                                     ),
                                   ),
                                 ),
-                              ),
+                               ListTile(
+                                 title: Text(
+                                   burgerItems[index].name,
+                                   style: TextStyle(fontSize: 12),
+                                   maxLines: 1,
+                                   overflow: TextOverflow.ellipsis,
+                                 ),
+                                 subtitle: Text(
+                                   burgerItems[index].desc,
+                                   style: TextStyle(fontSize: 10),
+                                   maxLines: 1,
+                                   overflow: TextOverflow.ellipsis,
+                                 ),
 
-                            ],
+                                                               ),
+                                Container(
+                                  alignment: Alignment.center,
+                                  height: 40,
+                                  width: 120,
+                                  decoration: BoxDecoration(
+                                    color: Colors.red.shade50,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {
+                                     addToCart(burgerItems[index]);
+                                    },
+                                    child: Text(
+                                      "Add to cart",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                              ],
+                            ),
                           ),
                         );
                       },itemCount: burgerItems.length,

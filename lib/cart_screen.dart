@@ -181,7 +181,7 @@ class _CartScreenState extends State<CartScreen> {
                     const Divider(height: 12, thickness: 1),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text("Total"),Text("\$ ${totalSale+15}")],
+                      children: [Text("Total"),Text("\$ ${(totalSale+15).toStringAsFixed(2)}")],
                     ),
                     ElevatedButton(
                       onPressed: () {},
