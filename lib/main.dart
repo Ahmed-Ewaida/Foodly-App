@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodly/cart_screen.dart';
+import 'package:foodly/profile_screen.dart';
 import 'home_screen.dart';
 
 main() {
@@ -43,7 +44,7 @@ class _MyAppState extends State<MyApp> {
   final List<Widget> screens = const [
     HomeScreen(),
     CartScreen(),
-    Center(child: Text('Profile')),
+    UserInfoView(),
   ];
   @override
   Widget build(BuildContext context) {
