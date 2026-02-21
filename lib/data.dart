@@ -134,8 +134,14 @@ List<ProductItems> burgerItems = [
 ];
 class CartItem {
   final ProductItems product;
-  int quantity; // mutable, default = 1
+  final int quantity;
 
   CartItem({required this.product, this.quantity = 1});
+
+  CartItem copyWith({ProductItems? product, int? quantity}) {
+    return CartItem(
+      product: product ?? this.product,
+      quantity: quantity ?? this.quantity,
+    );
+  }
 }
-List<CartItem> cartItems=[];

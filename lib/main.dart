@@ -1,64 +1,82 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodly/cart_screen.dart';
+import 'package:foodly/cubit/app_cubit.dart';
+import 'package:foodly/cubit/app_state.dart';
 import 'package:foodly/profile_screen.dart';
 import 'home_screen.dart';
 
-main() {
-  runApp(MyApp());
+void main() {
+  runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => AppCubit(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: const _AppScaffold(),
+      ),
+    );
+  }
 }
 
-class _MyAppState extends State<MyApp> {
-    int  _selectedIndex=0;
-  final List<BottomNavigationBarItem> navItems = const [
+class _AppScaffold extends StatelessWidget {
+  const _AppScaffold();
+
+  static const List<BottomNavigationBarItem> navItems = [
     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
     BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Cart'),
     BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
   ];
-  List <AppBar> appbers=[
+
+  static final List<PreferredSizeWidget> appBars = [
     AppBar(
-      title: Text(
+      title: const Text(
         "Food Delivery",
         style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800),
       ),
       centerTitle: true,
-      actions: [
-        IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.shopping_cart, size: 24),
-        ),
+      actions: const [
+        Icon(Icons.shopping_cart, size: 24),
         SizedBox(width: 10),
       ],
     ),
     AppBar(
-      title:Text("Cart",style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+      title: const Text(
+        "Cart",
+        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      ),
     ),
     AppBar(),
   ];
-  final List<Widget> screens = const [
+
+  static const List<Widget> screens = [
     HomeScreen(),
     CartScreen(),
     UserInfoView(),
   ];
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: Scaffold(
-      appBar: appbers[_selectedIndex],
-      body: screens[_selectedIndex],
-    bottomNavigationBar: BottomNavigationBar(
-    currentIndex: _selectedIndex,
-        onTap: (index) => setState(() => _selectedIndex = index),
-    selectedItemColor: Colors.red,
-    unselectedItemColor: Colors.grey,
-    items: navItems,
-    )));
+    return BlocBuilder<AppCubit, AppState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: appBars[state.selectedIndex],
+          body: screens[state.selectedIndex],
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: state.selectedIndex,
+            onTap: (index) => context.read<AppCubit>().setSelectedIndex(index),
+            selectedItemColor: Colors.red,
+            unselectedItemColor: Colors.grey,
+            items: navItems,
+          ),
+        );
+      },
+    );
   }
 }
-
-
