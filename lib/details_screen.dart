@@ -4,37 +4,22 @@ import 'package:foodly/cubit/app_cubit.dart';
 import 'package:foodly/cubit/app_state.dart';
 import 'package:foodly/data.dart';
 
-class ProductDetailScreen extends StatefulWidget {
+class ProductDetailScreen extends StatelessWidget {
   final ProductItems product;
 
   const ProductDetailScreen({super.key, required this.product});
 
   @override
-  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
-}
-
-class _ProductDetailScreenState extends State<ProductDetailScreen> {
-  @override
-  void initState() {
-    super.initState();
-  
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        context.read<AppCubit>().setDescriptionExpanded(false);
-      }
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final product = widget.product;
+    final product = this.product;
 
     return BlocBuilder<AppCubit, AppState>(
       buildWhen: (prev, curr) =>
-          prev.isDescriptionExpanded != curr.isDescriptionExpanded ||
+          prev.descriptionExpandedProductNames !=
+              curr.descriptionExpandedProductNames ||
           prev.favoriteProductNames != curr.favoriteProductNames,
       builder: (context, state) {
-        final isDescriptionExpanded = state.isDescriptionExpanded;
+        final isDescriptionExpanded = state.isDescriptionExpanded(product);
         final isFavorite = state.isFavorite(product);
 
         return Scaffold(
@@ -139,7 +124,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        context.read<AppCubit>().toggleDescriptionExpanded();
+                        context
+                            .read<AppCubit>()
+                            .toggleDescriptionExpanded(product);
                       },
                       child: Text(
                         isDescriptionExpanded ? 'See Less' : 'See More',

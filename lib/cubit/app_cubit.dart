@@ -13,12 +13,14 @@ class AppCubit extends Cubit<AppState> {
     emit(state.copyWith(isListView: !state.isListView));
   }
 
-  void setDescriptionExpanded(bool value) {
-    emit(state.copyWith(isDescriptionExpanded: value));
-  }
-
-  void toggleDescriptionExpanded() {
-    emit(state.copyWith(isDescriptionExpanded: !state.isDescriptionExpanded));
+  void toggleDescriptionExpanded(ProductItems product) {
+    final names = List<String>.from(state.descriptionExpandedProductNames);
+    if (names.contains(product.name)) {
+      names.remove(product.name);
+    } else {
+      names.add(product.name);
+    }
+    emit(state.copyWith(descriptionExpandedProductNames: names));
   }
 
   void setSearchQuery(String query) {
