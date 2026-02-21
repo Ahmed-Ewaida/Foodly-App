@@ -7,6 +7,7 @@ class AppState {
   final bool isListView;
   final bool isDescriptionExpanded;
   final String searchQuery;
+  final List<String> favoriteProductNames;
 
   const AppState({
     this.selectedIndex = 0,
@@ -14,7 +15,11 @@ class AppState {
     this.isListView = true,
     this.isDescriptionExpanded = false,
     this.searchQuery = '',
+    this.favoriteProductNames = const [],
   });
+
+  bool isFavorite(ProductItems product) =>
+      favoriteProductNames.contains(product.name);
 
   AppState copyWith({
     int? selectedIndex,
@@ -22,6 +27,7 @@ class AppState {
     bool? isListView,
     bool? isDescriptionExpanded,
     String? searchQuery,
+    List<String>? favoriteProductNames,
   }) {
     return AppState(
       selectedIndex: selectedIndex ?? this.selectedIndex,
@@ -30,6 +36,8 @@ class AppState {
       isDescriptionExpanded:
           isDescriptionExpanded ?? this.isDescriptionExpanded,
       searchQuery: searchQuery ?? this.searchQuery,
+      favoriteProductNames:
+          favoriteProductNames ?? this.favoriteProductNames,
     );
   }
 }

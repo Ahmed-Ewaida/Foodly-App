@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodly/cart_screen.dart';
 import 'package:foodly/cubit/app_cubit.dart';
 import 'package:foodly/cubit/app_state.dart';
+import 'package:foodly/favorites_screen.dart';
 import 'package:foodly/profile_screen.dart';
 import 'home_screen.dart';
 
@@ -30,6 +31,7 @@ class _AppScaffold extends StatelessWidget {
 
   static const List<BottomNavigationBarItem> navItems = [
     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+    BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
     BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Cart'),
     BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
   ];
@@ -48,6 +50,12 @@ class _AppScaffold extends StatelessWidget {
     ),
     AppBar(
       title: const Text(
+        "Favorites",
+        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      ),
+    ),
+    AppBar(
+      title: const Text(
         "Cart",
         style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
       ),
@@ -57,6 +65,7 @@ class _AppScaffold extends StatelessWidget {
 
   static const List<Widget> screens = [
     HomeScreen(),
+    FavoritesScreen(),
     CartScreen(),
     UserInfoView(),
   ];

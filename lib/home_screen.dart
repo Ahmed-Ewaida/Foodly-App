@@ -25,7 +25,8 @@ class HomeScreen extends StatelessWidget {
       buildWhen: (prev, curr) =>
           prev.isListView != curr.isListView ||
           prev.cartItems.length != curr.cartItems.length ||
-          prev.searchQuery != curr.searchQuery,
+          prev.searchQuery != curr.searchQuery ||
+          prev.favoriteProductNames != curr.favoriteProductNames,
       builder: (context, state) {
         final filteredItems = _filterByQuery(burgerItems, state.searchQuery);
 
@@ -100,6 +101,28 @@ class HomeScreen extends StatelessWidget {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                top: 8,
+                                right: 18,
+                                child: IconButton(
+                                  onPressed: () => context
+                                      .read<AppCubit>()
+                                      .toggleFavorite(item),
+                                  icon: Icon(
+                                    state.isFavorite(item)
+                                        ? Icons.favorite
+                                        : Icons.favorite_border,
+                                    color: state.isFavorite(item)
+                                        ? Colors.red
+                                        : Colors.white,
+                                    size: 22,
+                                  ),
+                                  padding: EdgeInsets.zero,
+                                  style: IconButton.styleFrom(
+                                    backgroundColor: Colors.black26,
                                   ),
                                 ),
                               ),
@@ -259,6 +282,20 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                     ),
                                   ),
+                                  IconButton(
+                                    onPressed: () => context
+                                        .read<AppCubit>()
+                                        .toggleFavorite(filteredItems[index]),
+                                    icon: Icon(
+                                      state.isFavorite(filteredItems[index])
+                                          ? Icons.favorite
+                                          : Icons.favorite_border,
+                                      color: state.isFavorite(filteredItems[index])
+                                          ? Colors.red
+                                          : Colors.grey,
+                                      size: 24,
+                                    ),
+                                  ),
                                   Container(
                                     alignment: Alignment.center,
                                     height: 30,
@@ -314,18 +351,42 @@ class HomeScreen extends StatelessWidget {
                               width: double.infinity,
                               child: Column(
                                 children: [
-                                  Container(
-                                    height: 70,
-                                    width: 70,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                          filteredItems[index].image,
+                                  Stack(
+                                    alignment: Alignment.topRight,
+                                    children: [
+                                      Container(
+                                        height: 70,
+                                        width: 70,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          image: DecorationImage(
+                                            image: NetworkImage(
+                                              filteredItems[index].image,
+                                            ),
+                                            fit: BoxFit.fill,
+                                          ),
                                         ),
-                                        fit: BoxFit.fill,
                                       ),
-                                    ),
+                                      IconButton(
+                                        onPressed: () => context
+                                            .read<AppCubit>()
+                                            .toggleFavorite(
+                                                filteredItems[index]),
+                                        icon: Icon(
+                                          state.isFavorite(filteredItems[index])
+                                              ? Icons.favorite
+                                              : Icons.favorite_border,
+                                          color: state.isFavorite(
+                                                  filteredItems[index])
+                                              ? Colors.red
+                                              : Colors.grey,
+                                          size: 22,
+                                        ),
+                                        padding: EdgeInsets.zero,
+                                        constraints: const BoxConstraints(),
+                                      ),
+                                    ],
                                   ),
                                   ListTile(
                                     title: Text(

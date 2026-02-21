@@ -29,6 +29,16 @@ class AppCubit extends Cubit<AppState> {
     emit(state.copyWith(searchQuery: ''));
   }
 
+  void toggleFavorite(ProductItems product) {
+    final names = List<String>.from(state.favoriteProductNames);
+    if (names.contains(product.name)) {
+      names.remove(product.name);
+    } else {
+      names.add(product.name);
+    }
+    emit(state.copyWith(favoriteProductNames: names));
+  }
+
   void addToCart(ProductItems product) {
     final items = List<CartItem>.from(state.cartItems);
     final existingIndex =

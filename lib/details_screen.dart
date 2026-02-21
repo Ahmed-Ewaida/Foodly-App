@@ -31,9 +31,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
     return BlocBuilder<AppCubit, AppState>(
       buildWhen: (prev, curr) =>
-          prev.isDescriptionExpanded != curr.isDescriptionExpanded,
+          prev.isDescriptionExpanded != curr.isDescriptionExpanded ||
+          prev.favoriteProductNames != curr.favoriteProductNames,
       builder: (context, state) {
         final isDescriptionExpanded = state.isDescriptionExpanded;
+        final isFavorite = state.isFavorite(product);
 
         return Scaffold(
           body: CustomScrollView(
@@ -41,6 +43,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               SliverAppBar(
                 expandedHeight: 300,
                 pinned: true,
+                actions: [
+                  IconButton(
+                    onPressed: () =>
+                        context.read<AppCubit>().toggleFavorite(product),
+                    icon: Icon(
+                      isFavorite ? Icons.favorite : Icons.favorite_border,
+                      color: isFavorite ? Colors.red : Colors.white,
+                    ),
+                  ),
+                ],
                 flexibleSpace: FlexibleSpaceBar(
                   background: Image.network(
                     product.image,
